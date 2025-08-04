@@ -1,0 +1,5 @@
+node_modules/
+db.sqlite3
+Event_Managment/
+_pycache_/
+
