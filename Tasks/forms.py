@@ -1,45 +1,37 @@
-from  django import forms
-from Tasks.models import Event ,Participant
-class Eventform(forms.ModelForm):
-    class  Meta:
-        model = Event
-        fields  = ['name','description','date','location','catagory']
+from django import forms
+from Tasks.models import Event, Participant, Catagory
 
-        
+
+class CatagoryForm(forms.ModelForm):
+    class Meta:
+        model = Catagory
+        fields = ['C_name', 'C_Description']
         widgets = {
-            'name': forms.TextInput(attrs={
-                'class': 'w-full mt-5 px-4 py-2 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400',
-                'placeholder': 'Enter event name'
-            }),
-            'description': forms.Textarea(attrs={
-                'class': 'w-full px-4 mt-5 py-2 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400',
-                'placeholder': 'Enter event description',
-                'rows': 4,
-            }),
-            'date': forms.DateInput(attrs={
-                'type': 'date',
-                'class': 'w-full px-4 mt-5 py-2 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400'
-            }),
-
-            'location': forms.TextInput(attrs={
-                'class': 'w-full px-4 py-2 mt-5 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400',
-                'placeholder': 'Event location'
-            }),
-            'catagory': forms.Select(attrs={
-                'class': 'w-full px-4 py-2 mt-5 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400'
-            }),
+            'C_name': forms.TextInput(attrs={'class': 'w-full border rounded px-2 py-1'}),
+            'C_Description': forms.Textarea(attrs={'class': 'w-full border rounded px-2 py-1', 'rows': 4}),
         }
 
-class participanForm(forms.ModelForm):
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ['name', 'description', 'date', 'location', 'catagory']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'w-full border rounded px-2 py-1'}),
+            'description': forms.Textarea(attrs={'class': 'w-full border rounded px-2 py-1', 'rows': 4}),
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'w-full border rounded px-2 py-1'}),
+            'location': forms.TextInput(attrs={'class': 'w-full border rounded px-2 py-1'}),
+            'catagory': forms.Select(attrs={'class': 'w-full border rounded px-2 py-1'}),
+        }
+
+
+class ParticipantForm(forms.ModelForm):
     class Meta:
         model = Participant
-        fields = '__all__'
-        widgets={
-            'p_name':forms.TextInput(attrs={
-                'class': 'w-full mt-5 px-4 py-2 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400',
-                'placeholder': 'Participant name'}),
-
-            'p_email' : forms.EmailInput(attrs={
-                'class': 'w-full mt-5 px-4 py-2 border rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-400',
-                'placeholder': 'Enter event name'})
+        fields = ['p_name', 'p_email', 'events']
+        widgets = {
+            'p_name': forms.TextInput(attrs={'class': 'w-full border rounded px-2 py-1'}),
+            'p_email': forms.EmailInput(attrs={'class': 'w-full border rounded px-2 py-1'}),
+            'events': forms.SelectMultiple(attrs={'class': 'w-full border rounded px-2 py-1'}),
         }
+

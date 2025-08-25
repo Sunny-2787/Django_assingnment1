@@ -3,12 +3,12 @@ from django.db import models
 # Create your models here.
 
 class Catagory(models.Model):
-    C_name =models.CharField(max_length=50)
+    C_name =models.CharField(max_length=50 ,blank=False,null=False)
     C_Description = models.TextField()
     
     def __str__(self):
         return self.C_name
-
+    
 class Event(models.Model):
     name = models.CharField(max_length=10)
     description=models.TextField()

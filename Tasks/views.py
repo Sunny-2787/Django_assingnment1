@@ -2,118 +2,98 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from Tasks.models import Event, Participant
 from datetime import date
-from Tasks.forms import Eventform,participanForm
-# Create your views here.
-# def h(request):
-#     return HttpResponse("Fello")
+from Tasks.forms import CatagoryForm,EventForm,ParticipantForm
 
-def event(request):
-    # type=request.GET.get("type","all")
-    Total = Event.objects.all()
-   
-    participant_all=Participant.objects.count()
-    context = {
-        "Total": Total,
 
-        
-        "participant_all":participant_all,
-    }
+def event_list(request):
+    events = Event.objects.all()
+    return render(request, "Event_man/event_list.html", {"events": events})
+
+
+def event_detail(request, id):
+    event = Event.objects.get(id=id)
+    return render(request, "Event_man/event_detail.html", {"event":event})
+
+def dashboard(request):
     
-
-    return render (request,'Event_man/eventDa.html',context)
-
-
-
-def Manager(request):
     type = request.GET.get("type",'all')
-    if type == "UPe":
+    if type == "upcoming":
         Total = Event.objects.filter(date__gt=date.today())
-    elif type == "PAe":
+    elif type == "past":
         Total = Event.objects.filter(date__lt=date.today())
-    elif type == "TOe":
-        Total = Event.objects.filter(date=date.today())
     else:
-        Total = Event.objects.all()
-    # print(type)
-    # Total = Event.objects.all()
-    event_all = Event.objects.count()
-    participant_all=Participant.objects.count()
+        Total = Event.objects.prefetch_related("participants").all()
 
-    upcoming_E= Event.objects.filter(date__gt=date.today()).count()
-    Past_E = Event.objects.filter(date__lt=date.today()).count()
-    # events_today = Event.objects.filter(date__date=date.today())
+    
 
+    total_events  = Event.objects.count()
+    upcoming_events = Event.objects.filter(date__gte=date.today()).count()
+    past_events = Event.objects.filter(date__lt=date.today()).count()
+    total_participants = Participant.objects.count()
+    todays_events = Event.objects.filter(date=date.today())
 
-    context = {
-        "Total": Total,
+    context={
+        "total_events": total_events,
+        "upcoming_events": upcoming_events,
+        "past_events": past_events,
+        "total_participants": total_participants,
+        "todays_events": todays_events,
+        "Total":Total
 
-        "event_all":event_all,
-        "participant_all":participant_all,
-        "upcoming_E" : upcoming_E,
-        "Past_E":Past_E,
-        # "events_today":events_today 
     }
+    return render(request, "Event_man/dashboard.html", context)
 
 
 
-    return render (request,'Event_man/Manager-Dash.html',context)
+def create_catagory(request):
+    form = CatagoryForm()
+    if request.method == "POST":
+        form = CatagoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("dashboard")
+        
+    return render(request,"Event_man/form.html",{"form" :form})
+
+def create_participate(request):
+    form = ParticipantForm()
+    if request.method == "POST":
+        form = ParticipantForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("dashboard")
+        
+    return render(request,"Event_man/Participantform.html",{"form" :form})
+
+def create_Event(request):
+    form = EventForm
+    if request.method == "POST":
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("dashboard")
+        
+    return render(request,"Event_man/Eventform.html",{"form" :form})
 
 
+def Update_Event(request,id):
+    event = Event.objects.get(id=id)
+    form = EventForm(instance=event)
+    if request.method == "POST":
+        form = EventForm(request.POST,instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect("dashboard")
+            
+    return render(request,"Event_man/Eventform.html",{"form" :form})
 
+def DELETE_Event(request,id):
 
-def form(request):
-    form = Eventform()
-    p_form = participanForm()
-   
 
     if request.method == "POST":
-        form = Eventform(request.POST)
-        p_form = participanForm(request.POST)
-        
-        if form.is_valid() and  p_form.is_valid():
-            form.save()
-            p_form.save()
+        event = Event.objects.get(id=id)
+        event.delete()
 
-        
-    
-
-    return render(request, 'Event_man/form.html', {
-        "form": form,
-        "p_form":p_form
-        
-    })
-
-def update_form(request,id):
-    Total = Event.objects.get(id=id)
-
-    form = Eventform(instance=Total)
-   
-    p_form = participanForm()
-   
-
-    if request.method == "POST":
-        form = Eventform(request.POST,instance=Total)
-        p_form = participanForm(request.POST)
-        
-        if form.is_valid() and  p_form.is_valid():
-            form.save()
-            p_form.save()
-
-        
-    
-
-    return render(request, 'Event_man/form.html', {
-        "form": form,
-        "p_form":p_form
-        
-    })
-
-def delete_form(request,id):
-    if request.method =="POST":
-        Total = Event.objects.get(id=id)
-        Total.delete()
-
-    return redirect('Boss')
-
-        
-
+        return redirect("dashboard")
+    else:
+        return redirect("dashboard")
