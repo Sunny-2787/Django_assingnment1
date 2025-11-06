@@ -1,5 +1,7 @@
 from django import forms
-from Tasks.models import Event, Participant, Catagory
+from Tasks.models import Event, Catagory,RSVP
+from django.contrib.auth.models import User
+
 
 
 class CatagoryForm(forms.ModelForm):
@@ -15,7 +17,7 @@ class CatagoryForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'description', 'date', 'location', 'catagory']
+        fields = ['name', 'description', 'date', 'location', 'catagory',"photo"]
         widgets = {
             'name': forms.TextInput(attrs={'class': 'w-full border rounded px-2 py-1'}),
             'description': forms.Textarea(attrs={'class': 'w-full border rounded px-2 py-1', 'rows': 4}),
@@ -25,13 +27,11 @@ class EventForm(forms.ModelForm):
         }
 
 
-class ParticipantForm(forms.ModelForm):
-    class Meta:
-        model = Participant
-        fields = ['p_name', 'p_email', 'events']
-        widgets = {
-            'p_name': forms.TextInput(attrs={'class': 'w-full border rounded px-2 py-1'}),
-            'p_email': forms.EmailInput(attrs={'class': 'w-full border rounded px-2 py-1'}),
-            'events': forms.SelectMultiple(attrs={'class': 'w-full border rounded px-2 py-1'}),
-        }
 
+class RSVPForm(forms.ModelForm):
+    class Meta:
+        model = RSVP
+        fields = ['status']  
+        widgets = {
+            'status': forms.Select(attrs={'class': 'w-full border rounded px-2 py-1'}),
+        }

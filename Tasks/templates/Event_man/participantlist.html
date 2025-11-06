@@ -1,0 +1,40 @@
+{% extends "Event_man/base.html" %}
+
+{% block content %}
+<div class="container mx-auto p-6">
+    <h2 class="text-2xl font-bold mb-4">Participants & Their Events</h2>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full border border-gray-300 bg-white shadow-lg rounded-lg">
+            <thead class="bg-blue-600 text-white">
+                <tr>
+                    <th class="px-4 py-2 text-left">No</th>
+                    <th class="px-4 py-2 text-left">Participant</th>
+                    <th class="px-4 py-2 text-left">Email</th>
+                    <th class="px-4 py-2 text-left">Event</th>
+                    <th class="px-4 py-2 text-left">Status</th>
+                    <th class="px-4 py-2 text-left">Event Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if rsvps %}
+                    {% for rsvp in rsvps %}
+                        <tr class="border-b hover:bg-gray-100">
+                            <td class="px-4 py-2">{{ forloop.counter }}</td>
+                            <td class="px-4 py-2">{{ rsvp.user.username }}</td>
+                            <td class="px-4 py-2">{{ rsvp.user.email }}</td>
+                            <td class="px-4 py-2">{{ rsvp.event.name }}</td>
+                            <td class="px-4 py-2">{{ rsvp.status }}</td>
+                            <td class="px-4 py-2">{{ rsvp.event.date }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="px-4 py-2 text-center">No events RSVP’d</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

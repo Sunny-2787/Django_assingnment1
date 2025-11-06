@@ -1,0 +1,48 @@
+{% extends "admin/control.html" %}
+
+{% block content %}
+<div class="overflow-x-auto bg-white shadow rounded-lg mt-6">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-blue-600 text-white">
+            <tr>
+                <th class="px-6 py-3 text-left text-sm font-semibold">No</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold">Group Name</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold">Permissions</th>
+                <th class="px-6 py-3 text-left text-sm font-semibold">Action</th>
+            </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+            {% for g in group %}
+            <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 text-gray-700">{{ forloop.counter }}</td>
+                <td class="px-6 py-4 font-medium text-gray-900">{{ g.name }}</td>
+                <td class="px-6 py-4 text-gray-700">
+                    {% if g.permissions.exists %}
+                        <div class="flex flex-wrap gap-2">
+                            {% for p in g.permissions.all %}
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full whitespace-nowrap">
+                                    {{ p.name }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <span class="text-gray-400 italic">Null</span>
+                    {% endif %}
+                </td>
+                <td class="px-6 py-4">
+                    <form method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <a href={% url "group_delet" g.id %}
+                                class="px-3 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600"
+                                >
+                            Delete
+                    </a>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}

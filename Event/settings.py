@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Tasks',
+    'users',
+    'core'
 
 ]
 
@@ -86,24 +88,24 @@ WSGI_APPLICATION = 'Event.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'Event',
-#         'USER': 'postgres',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
-
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://newdb_bzwh_user:MRtZMLY5gRVit1ADyRjo3MfxMfgQjItS@dpg-d2o6hiogjchc73f7226g-a.oregon-postgres.render.com/newdb_bzwh',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Event2',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
 }
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgresql://newdb_bzwh_user:MRtZMLY5gRVit1ADyRjo3MfxMfgQjItS@dpg-d2o6hiogjchc73f7226g-a.oregon-postgres.render.com/newdb_bzwh',
+#         conn_max_age=600
+#     )
+# }
 
 
 
@@ -146,8 +148,22 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS=[
     BASE_DIR / 'static',
 ]
+MEDIA_URL='/media/'
+MEDIA_ROOT=BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "sazharul60@gmail.com"
+EMAIL_HOST_PASSWORD = "fsfr fenq xdhg wyhb"
+
+
+FRONTEND_URL = "http://127.0.0.1:8000"
+LOGIN_URL="login"

@@ -9,11 +9,15 @@
 <body class="bg-gray-100">
   <!-- Navbar -->
   <nav class="bg-blue-600 text-white p-4 flex justify-between">
-    <a href="" class="font-bold">Event Manager</a>
+    <a href="" class="font-bold">Event Managment</a>
     <div class="space-x-4">
 
       <a href="{% url "event_list" %}">See all Events </a>
-      <a href="{% url "dashboard" %}">Dashboard</a>
+      <a href="{% url "participant_list" %}">See all Participant </a>
+
+      <a href="{% url "dashboard" %}">Organizer Dashboard</a>
+      <a href="{% url "admin" %}">Admin Dashboard  </a>
+      <a href="{% url "out" %}">logout</a>
     </div>
   </nav>
 

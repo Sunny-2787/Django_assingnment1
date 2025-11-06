@@ -1,0 +1,63 @@
+
+
+
+
+{% extends "Event_man/user_dashboard.html" %}
+{% block content %}
+
+
+<h1 class="text-2xl font-bold mb-4">All Events</h1>
+
+
+<div class="mb-4">
+    {% for message in messages %}
+        <p class="text-green-600">{{ message }}</p>
+    {% endfor %}
+</div>
+
+
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for event in events %}
+    <div class="p-4 bg-white rounded-2xl shadow">
+        <h2 class="text-xl font-bold">{{ event.name }}</h2>
+        <h3 class="text-md font-semibold">Description: {{ event.description }}</h3>
+        <p class="text-gray-500">Category: {{ event.catagory.C_name }}</p>
+        <p class="text-gray-500">Participants: {{ event.participants.count }}</p>
+        <p class="text-gray-500">Date: {{ event.date }}</p>
+        <p class="text-gray-500">Location: {{ event.location }}</p>
+
+```
+
+    <form method="post" action="{% url 'RSVP_SYSTEM' event.id %}" class="mt-2">
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+            {% if user in event.participants.all %}
+                <p class="text-green-600 font-semibold">Already RSVP'd</p>
+            {% else %}
+                <select name="status" class="border rounded px-2 py-1 w-full">
+                    <option value="going">Going</option>
+                    <option value="not_going">Not Going</option>
+                    <option value="interested" selected>Interested</option>
+                </select>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded mt-2 w-full">
+                    RSVP
+                </button>
+            {% endif %}
+        {% else %}
+            <p class="text-gray-700 mt-2">
+                <a href="{% url 'login' %}" class="text-blue-600 underline">Login</a> to RSVP
+            </p>
+        {% endif %}
+    </form>
+
+</div>
+{% empty %}
+    <p class="text-gray-500">No events available.</p>
+{% endfor %}
+```
+
+</div>
+
+
+    {% endblock content %}
