@@ -170,7 +170,7 @@ def All_dashboard(request):
         return redirect('dashboard')
     elif  is_admin(request.user):
         return redirect('admin')
-    elif is_participant:
+    elif is_participant(request.user):
         return redirect('My list')
     else:
         return redirect("no-permission")

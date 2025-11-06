@@ -8,7 +8,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.decorators import login_required,user_passes_test
 
 def is_admin(user):
-    return user.groups.filter(name='Admin').exists()
+    return user.is_superuser or user.groups.filter(name='Admin').exists()
 # Create your views here.
 def sing_up(request):
     form= coustomregistrationform()
@@ -31,9 +31,9 @@ def login_in(request):
     if request.method =="POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-        print(username , password)
+        
         user = authenticate(request,username = username ,password=password)
-        print(user)
+       
         if user is not None:
             login(request , user)
             return redirect("All_dashboard")
