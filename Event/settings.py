@@ -102,7 +102,7 @@ WSGI_APPLICATION = 'Event.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://a2_5znv_user:E5ekkX6qMjm0u0xLkSiQUeyfU3iZrVXr@dpg-d46c29odl3ps738uf5s0-a.oregon-postgres.render.com/a2_5znv',
+        default='postgresql://as2_vnm1_user:XF168nxwUJC1NVB9J2ZxvAkIPSUT1yX3@dpg-d46f64adbo4c73f9nvo0-a.oregon-postgres.render.com/as2_vnm1',
         conn_max_age=600
     )
 }
