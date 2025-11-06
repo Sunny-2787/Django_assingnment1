@@ -88,24 +88,24 @@ WSGI_APPLICATION = 'Event.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'Event2',
-#         'USER': 'postgres',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
-
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://a2_5znv_user:E5ekkX6qMjm0u0xLkSiQUeyfU3iZrVXr@dpg-d46c29odl3ps738uf5s0-a.oregon-postgres.render.com/a2_5znv',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Event2',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
 }
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgresql://a2_5znv_user:E5ekkX6qMjm0u0xLkSiQUeyfU3iZrVXr@dpg-d46c29odl3ps738uf5s0-a.oregon-postgres.render.com/a2_5znv',
+#         conn_max_age=600
+#     )
+# }
 
 
 
